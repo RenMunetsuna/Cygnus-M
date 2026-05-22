@@ -1,0 +1,47 @@
+menuconfig ZMK_BEHAVIOR_CLK_OR_KEY
+    bool "Click-or-key behavior (Keyball44-style typing mode)"
+    default y
+    help
+      Enable custom behavior that acts as a mouse click in mouse mode,
+      but as a keyboard key in typing mode. Includes vowel auto-complete
+      for Japanese romaji input.
+
+config ZMK_AML_TYPING_MODE_TIMEOUT
+    int "AML typing mode vowel auto-complete timeout (ms)"
+    default 300
+    help
+      Time window in milliseconds after a click where a vowel key will
+      trigger auto-insertion of the preceding consonant (J/K/L).
+
+menuconfig ZMK_BEHAVIOR_VOWEL_AUTO
+    bool "Vowel autocomplete behavior (Keyball44 drag-scroll helper)"
+    default y
+    help
+      Custom &kp wrapper for A/I/U/E/O that taps a recent J/K/L
+      click-consonant via direct HID before raising the vowel event.
+
+menuconfig ZMK_INPUT_PROCESSOR_TYPING_MODE_EXIT
+    bool "Trackball motion typing-mode exit input processor"
+    default y
+    help
+      Exit custom typing mode on REL_X/REL_Y trackball movement.
+
+menuconfig ZMK_INPUT_PROCESSOR_SCROLL_MODE
+    bool "Scroll-mode input processor (Keyball44 drag-scroll port)"
+    default y
+    help
+      Convert trackball REL_X/REL_Y events into REL_HWHEEL/REL_WHEEL
+      while the global scroll mode is active. Works with clk_or_key's
+      scroll trigger (param2 = 0xFF) and fixed-scroll lock.
+
+if ZMK_INPUT_PROCESSOR_SCROLL_MODE
+
+config ZMK_SCROLL_MODE_CLEAR_SUPPRESSED_ACCUM
+    bool "Clear suppressed scroll-axis accumulator"
+    default y
+    help
+      Clear the accumulator for the axis currently suppressed by scroll
+      snap. Disable this to restore the previous behavior, where suppressed
+      movement could accumulate and emit if the snap direction changed.
+
+endif # ZMK_INPUT_PROCESSOR_SCROLL_MODE

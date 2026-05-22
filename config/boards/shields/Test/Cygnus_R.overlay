@@ -19,7 +19,7 @@
     trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-
+        input-processors = <&scroll_mode>, <&typing_mode_exit>;
     };
 };
 
@@ -62,5 +62,4 @@
         scroll-layers = <5>;
     };
 };
-
 

@@ -1,0 +1,8 @@
+description: |
+  Trackball motion hook for AML typing mode.
+  Exits typing mode on REL_X/REL_Y movement and passes the original
+  movement through unchanged.
+
+compatible: "zmk,input-processor-typing-mode-exit"
+
+include: ip_zero_param.yaml

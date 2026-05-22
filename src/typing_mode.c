@@ -1,0 +1,172 @@
+/*
+ * Copyright 2026 ren-mntn
+ * SPDX-License-Identifier: MIT
+ *
+ * Keyball44-style typing mode global state and listener.
+ * Handles A-Z key detection to enter typing mode, and vowel
+ * auto-complete for Japanese romaji input (e.g. click J then
+ * type A within 300ms -> auto-insert "J" before "A").
+ */
+
+#include <zephyr/kernel.h>
+#include <zephyr/logging/log.h>
+
+#include "typing_mode.h"
+
+#define IS_CENTRAL (IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL) || !IS_ENABLED(CONFIG_ZMK_SPLIT))
+
+#if IS_CENTRAL
+#include <zmk/event_manager.h>
+#include <zmk/events/keycode_state_changed.h>
+#include <zmk/behavior.h>
+#include <zmk/behavior_queue.h>
+#include <zmk/hid.h>
+#include <zmk/endpoints.h>
+#include <dt-bindings/zmk/keys.h>
+#endif
+
+LOG_MODULE_REGISTER(typing_mode, CONFIG_ZMK_LOG_LEVEL);
+
+/* HID usage IDs for keyboard keys (from USB HID spec) */
+#define HID_A 0x04
+#define HID_B 0x05
+#define HID_C 0x06
+#define HID_D 0x07
+#define HID_E 0x08
+#define HID_F 0x09
+#define HID_G 0x0A
+#define HID_H 0x0B
+#define HID_I 0x0C
+#define HID_J 0x0D
+#define HID_K 0x0E
+#define HID_L 0x0F
+#define HID_M 0x10
+#define HID_N 0x11
+#define HID_O 0x12
+#define HID_P 0x13
+#define HID_Q 0x14
+#define HID_R 0x15
+#define HID_S 0x16
+#define HID_T 0x17
+#define HID_U 0x18
+#define HID_V 0x19
+#define HID_W 0x1A
+#define HID_X 0x1B
+#define HID_Y 0x1C
+#define HID_Z 0x1D
+
+#define USAGE_KEYBOARD HID_USAGE_KEY
+
+/* Global state */
+bool g_is_typing_mode = true;
+uint32_t g_last_keycode = 0;
+int64_t g_typing_timer = 0;
+uint32_t g_current_pressed_key = 0;
+
+/* Scroll mode state */
+bool g_is_scrolling = false;
+bool g_is_fixed_scroll = false;
+
+void scroll_mode_set(bool active) {
+    g_is_scrolling = active;
+    if (!active) {
+        g_is_fixed_scroll = false;
+    }
+}
+
+void scroll_mode_set_fixed(bool fixed) {
+    g_is_fixed_scroll = fixed;
+    if (fixed) {
+        g_is_scrolling = true;
+    }
+}
+
+void typing_mode_set(bool enable) {
+    if (g_is_typing_mode == enable) {
+        return;
+    }
+    g_is_typing_mode = enable;
+
+#if IS_CENTRAL
+    if (!enable && g_current_pressed_key != 0) {
+        /* Release any held key from the custom behavior */
+        raise_zmk_keycode_state_changed_from_encoded(g_current_pressed_key, false, k_uptime_get());
+    }
+#endif
+    if (!enable) {
+        g_current_pressed_key = 0;
+    }
+    /* Clear pending vowel-autocomplete state on mode change */
+    g_last_keycode = 0;
+    g_typing_timer = 0;
+}
+
+bool typing_mode_get(void) {
+    return g_is_typing_mode;
+}
+
+#if IS_CENTRAL
+
+static bool is_alpha_usage(uint16_t usage_page, uint32_t keycode) {
+    return usage_page == USAGE_KEYBOARD && keycode >= HID_A && keycode <= HID_Z;
+}
+
+static bool is_vowel(uint32_t keycode) {
+    return keycode == HID_A || keycode == HID_I || keycode == HID_U ||
+           keycode == HID_E || keycode == HID_O;
+}
+
+static bool is_jkl_consonant(uint32_t keycode) {
+    return keycode == HID_J || keycode == HID_K || keycode == HID_L;
+}
+
+static int typing_mode_keycode_listener(const zmk_event_t *eh) {
+    const struct zmk_keycode_state_changed *ev = as_zmk_keycode_state_changed(eh);
+    if (ev == NULL) {
+        return ZMK_EV_EVENT_BUBBLE;
+    }
+    if (!ev->state) {
+        /* Only react to key presses, not releases */
+        return ZMK_EV_EVENT_BUBBLE;
+    }
+    /* Any key press cancels fixed-scroll mode (matches QMK behavior).
+     * clk_or_key mouse-mode presses don't fire keycode_state_changed,
+     * so the scroll trigger and click buttons won't cancel themselves. */
+    if (g_is_fixed_scroll) {
+        scroll_mode_set(false);
+    }
+
+    /* Any non-click key press enters typing mode. This guarantees the
+     * next J/K/L goes down the letter path instead of being a click,
+     * so IME toggles (LANG1/LANG2), symbols, etc. all "wake up" the
+     * keyboard back into typing. */
+    if (!g_is_typing_mode) {
+        g_is_typing_mode = true;
+    }
+
+    if (!is_alpha_usage(ev->usage_page, ev->keycode)) {
+        /* Non-alpha key: cancel any in-flight vowel autocomplete. */
+        g_typing_timer = 0;
+        g_last_keycode = 0;
+        return ZMK_EV_EVENT_BUBBLE;
+    }
+
+    /* Vowel autocomplete is performed by the &vowel_auto behavior on
+     * the A/I/U/E/O keys themselves (behavior runs BEFORE event
+     * dispatch, so the consonant ships ahead of the vowel). The
+     * listener only needs to clear stale autocomplete state on
+     * non-vowel alpha keys so the window doesn't leak. */
+    if (g_typing_timer != 0 &&
+        (ev->timestamp - g_typing_timer) <= CONFIG_ZMK_AML_TYPING_MODE_TIMEOUT) {
+        if (!is_vowel(ev->keycode) || !is_jkl_consonant(g_last_keycode)) {
+            g_typing_timer = 0;
+        }
+    }
+
+    return ZMK_EV_EVENT_BUBBLE;
+}
+
+ZMK_LISTENER(typing_mode, typing_mode_keycode_listener);
+ZMK_SUBSCRIPTION(typing_mode, zmk_keycode_state_changed);
+
+#endif /* IS_CENTRAL */

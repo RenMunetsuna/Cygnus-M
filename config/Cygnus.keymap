@@ -34,6 +34,16 @@
     };
 
     behaviors {
+        clk_or_key: clk_or_key {
+            compatible = "zmk,behavior-clk-or-key";
+            #binding-cells = <2>;
+        };
+
+        vowel_auto: vowel_auto {
+            compatible = "zmk,behavior-vowel-auto";
+            #binding-cells = <1>;
+        };
+
         lt_to_layer_0: lt_to_layer_0 {
             compatible = "zmk,behavior-hold-tap";
             label = "LAYER_TAP_TO_0";
@@ -53,13 +63,23 @@
         };
     };
 
+    typing_mode_exit: typing_mode_exit {
+        compatible = "zmk,input-processor-typing-mode-exit";
+        #input-processor-cells = <0>;
+    };
+
+    scroll_mode: scroll_mode {
+        compatible = "zmk,input-processor-scroll-mode";
+        #input-processor-cells = <0>;
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
             bindings = <
-&lt 6 ESC  &kp Q     &kp W     &kp E          &kp R           &kp T                                           &kp Y        &kp U  &kp I      &kp O    &kp A        &kp BSPC
-&kp TAB    &kp A     &kp S     &kp D          &kp F           &kp G        &mkp MCLK          &kp UP_ARROW    &kp H        &kp J  &kp K      &lt 4 L  &lt 5 MINUS  &kp ENTER
+&lt 6 ESC  &kp Q     &kp W     &vowel_auto E  &kp R           &kp T                                           &kp Y        &vowel_auto U  &vowel_auto I      &vowel_auto O    &vowel_auto A        &kp BSPC
+&kp TAB    &vowel_auto A     &kp S     &kp D          &kp F           &kp G        &mkp MCLK          &kp UP_ARROW    &kp H        &clk_or_key J 0  &clk_or_key K 255      &clk_or_key L 1  &lt 5 MINUS  &kp ENTER
 &kp LSHFT  &kp Z     &kp X     &kp C          &kp V           &kp B        &kp DELETE         &kp DOWN_ARROW  &kp N        &kp M  &kp COMMA  &kp DOT  &kp FSLH     &kp RSHFT
 &kp LCTRL  &kp LGUI  &kp LALT  &kp LC(SPACE)  &kp LEFT_ARROW  &lt 2 SPACE  &kp RIGHT_ARROW    &kp BACKSPACE   &lt 1 ENTER                             &kp DEL      &kp RCTRL
             >;
@@ -99,7 +119,7 @@
         MOUSE {
             bindings = <
 &trans  &trans       &trans       &kp LC(PAGE_UP)  &kp LC(PAGE_DOWN)  &kp LG(R)                      &kp LG(R)  &kp LC(PAGE_UP)  &kp LC(PAGE_DOWN)  &trans       &trans       &trans
-&trans  &lt 5 SPACE  &lt 4 SPACE  &mkp MB1         &mkp MB2           &mkp MB3   &mkp MB3    &trans  &mkp MB3   &mkp MB1         &mkp MB2           &lt 4 SPACE  &lt 5 SPACE  &trans
+&trans  &lt 5 SPACE  &lt 4 SPACE  &mkp MB1         &mkp MB2           &mkp MB3   &mkp MB3    &trans  &mkp MB3   &trans          &trans            &trans       &lt 5 SPACE  &trans
 &trans  &trans       &trans       &trans           &trans             &trans     &trans      &trans  &trans     &mkp MB4         &mkp MB5           &trans       &trans       &trans
 &trans  &trans       &trans       &trans           &trans             &trans     &trans      &trans  &trans                                                      &trans       &trans
             >;
