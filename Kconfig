@@ -6,6 +6,31 @@ menuconfig ZMK_BEHAVIOR_CLK_OR_KEY
       but as a keyboard key in typing mode. Includes vowel auto-complete
       for Japanese romaji input.
 
+if ZMK_BEHAVIOR_CLK_OR_KEY
+
+choice ZMK_CLK_OR_KEY_PINCH_MODIFIER
+    prompt "Modifier used for scroll + left-click pinch"
+    default ZMK_CLK_OR_KEY_PINCH_MODIFIER_LGUI
+    help
+      Modifier held when left-click is pressed while scroll mode is active.
+      The default keeps the current Mac/Figma pinch-zoom behavior.
+
+config ZMK_CLK_OR_KEY_PINCH_MODIFIER_LGUI
+    bool "Left GUI"
+
+config ZMK_CLK_OR_KEY_PINCH_MODIFIER_LCTL
+    bool "Left Control"
+
+config ZMK_CLK_OR_KEY_PINCH_MODIFIER_LSFT
+    bool "Left Shift"
+
+config ZMK_CLK_OR_KEY_PINCH_MODIFIER_LALT
+    bool "Left Alt"
+
+endchoice
+
+endif # ZMK_BEHAVIOR_CLK_OR_KEY
+
 config ZMK_AML_TYPING_MODE_TIMEOUT
     int "AML typing mode vowel auto-complete timeout (ms)"
     default 300
@@ -49,6 +74,33 @@ menuconfig ZMK_INPUT_PROCESSOR_SCROLL_MODE
       scroll trigger (param2 = 0xFF) and fixed-scroll lock.
 
 if ZMK_INPUT_PROCESSOR_SCROLL_MODE
+
+config ZMK_SCROLL_MODE_DIVISOR_X
+    int "Horizontal scroll divisor"
+    default 50
+    range 1 1000
+    help
+      Trackball motion units per horizontal scroll tick.
+
+config ZMK_SCROLL_MODE_DIVISOR_Y
+    int "Vertical scroll divisor"
+    default 50
+    range 1 1000
+    help
+      Trackball motion units per vertical scroll tick.
+
+config ZMK_SCROLL_MODE_SNAP_BUFFER_LEN
+    int "Scroll snap history length"
+    default 5
+    range 1 31
+    help
+      Number of recent samples used to decide the dominant scroll axis.
+
+config ZMK_SCROLL_MODE_NATURAL_SCROLL
+    bool "Use natural vertical scroll direction"
+    default y
+    help
+      Match the current behavior: trackball down scrolls content down.
 
 config ZMK_SCROLL_MODE_CLEAR_SUPPRESSED_ACCUM
     bool "Clear suppressed scroll-axis accumulator"

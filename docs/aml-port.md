@@ -71,3 +71,32 @@ CONFIG_PMW3610_CPI=450
 CONFIG_PMW3610_SNIPE_CPI=600
 CONFIG_PMW3610_SNIPE_CPI_DIVIDOR=4
 ```
+
+## AML tuning knobs
+
+The AML defaults match the first Cygnus port, but these can be adjusted at
+build time through Kconfig:
+
+```conf
+CONFIG_ZMK_SCROLL_MODE_DIVISOR_X=50
+CONFIG_ZMK_SCROLL_MODE_DIVISOR_Y=50
+CONFIG_ZMK_SCROLL_MODE_SNAP_BUFFER_LEN=5
+CONFIG_ZMK_SCROLL_MODE_NATURAL_SCROLL=y
+CONFIG_ZMK_CLK_OR_KEY_PINCH_MODIFIER_LGUI=y
+```
+
+The pinch modifier choice can be switched to left control, shift, or alt if
+Cmd+wheel is not the desired host gesture.
+
+## Flash helper
+
+`scripts/flash-uf2.sh` wraps the GitHub Actions download and UF2 copy flow:
+
+```sh
+scripts/flash-uf2.sh --side right --run latest
+scripts/flash-uf2.sh --side left --run 26284225454
+scripts/flash-uf2.sh --side reset --run latest
+```
+
+The script waits for one UF2 bootloader volume under `/Volumes`, then copies
+the selected firmware.

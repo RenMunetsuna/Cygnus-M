@@ -67,10 +67,17 @@ uint32_t g_current_pressed_key = 0;
 bool g_is_scrolling = false;
 bool g_is_fixed_scroll = false;
 
+static void release_scroll_modifier_if_available(void) {
+#if IS_CENTRAL && IS_ENABLED(CONFIG_ZMK_BEHAVIOR_CLK_OR_KEY)
+    clk_or_key_release_pinch_modifier();
+#endif
+}
+
 void scroll_mode_set(bool active) {
     g_is_scrolling = active;
     if (!active) {
         g_is_fixed_scroll = false;
+        release_scroll_modifier_if_available();
     }
 }
 
@@ -82,6 +89,9 @@ void scroll_mode_set_fixed(bool fixed) {
 }
 
 void typing_mode_set(bool enable) {
+    if (enable) {
+        release_scroll_modifier_if_available();
+    }
     if (g_is_typing_mode == enable) {
         return;
     }
@@ -141,6 +151,7 @@ static int typing_mode_keycode_listener(const zmk_event_t *eh) {
      * so IME toggles (LANG1/LANG2), symbols, etc. all "wake up" the
      * keyboard back into typing. */
     if (!g_is_typing_mode) {
+        release_scroll_modifier_if_available();
         g_is_typing_mode = true;
     }
 

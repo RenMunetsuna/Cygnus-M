@@ -26,3 +26,6 @@ extern bool g_is_fixed_scroll;
 
 void scroll_mode_set(bool active);
 void scroll_mode_set_fixed(bool fixed);
+
+/* Safety hook implemented by clk_or_key when that behavior is enabled. */
+void clk_or_key_release_pinch_modifier(void);

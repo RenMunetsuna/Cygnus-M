@@ -10,6 +10,7 @@
 #include <zephyr/device.h>
 #include <zephyr/input/input.h>
 #include <zephyr/logging/log.h>
+#include <zephyr/sys/util.h>
 
 #include <drivers/input_processor.h>
 
@@ -20,12 +21,18 @@ LOG_MODULE_REGISTER(scroll_mode, CONFIG_ZMK_LOG_LEVEL);
 #if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
 
 /* Pixels of trackball motion per scroll tick. */
-#define SCROLL_DIVISOR_Y 50
-#define SCROLL_DIVISOR_X 50
+#define SCROLL_DIVISOR_X CONFIG_ZMK_SCROLL_MODE_DIVISOR_X
+#define SCROLL_DIVISOR_Y CONFIG_ZMK_SCROLL_MODE_DIVISOR_Y
 
 /* Keyball-style axis snap: avoid diagonal scroll by locking to the
- * dominant axis based on a 5-sample rolling history. */
-#define SNAP_BUF_LEN 5
+ * dominant axis based on a configurable rolling history. */
+#define SNAP_BUF_LEN CONFIG_ZMK_SCROLL_MODE_SNAP_BUFFER_LEN
+#define SNAP_MASK (BIT(SNAP_BUF_LEN) - 1U)
+
+BUILD_ASSERT(SCROLL_DIVISOR_X > 0, "CONFIG_ZMK_SCROLL_MODE_DIVISOR_X must be positive");
+BUILD_ASSERT(SCROLL_DIVISOR_Y > 0, "CONFIG_ZMK_SCROLL_MODE_DIVISOR_Y must be positive");
+BUILD_ASSERT(SNAP_BUF_LEN > 0 && SNAP_BUF_LEN <= 31,
+             "CONFIG_ZMK_SCROLL_MODE_SNAP_BUFFER_LEN must be between 1 and 31");
 
 typedef enum {
     SNAP_NONE,
@@ -36,20 +43,20 @@ typedef enum {
 static int32_t x_accum;
 static int32_t y_accum;
 static snap_state_t snap_state;
-static uint8_t snap_history;
+static uint32_t snap_history;
 static int32_t last_abs_x_in_poll;
 
 static int32_t iabs(int32_t v) { return v < 0 ? -v : v; }
 
-static snap_state_t update_snap(snap_state_t current, uint8_t history) {
+static snap_state_t update_snap(snap_state_t current, uint32_t history) {
     uint8_t x_cnt = 0;
     for (int i = 0; i < SNAP_BUF_LEN; i++) {
-        if (history & (1 << i)) x_cnt++;
+        if (history & BIT(i)) x_cnt++;
     }
-    if (current == SNAP_X && x_cnt <= SNAP_BUF_LEN / 2 && (history & 0x03) == 0) {
+    if (current == SNAP_X && x_cnt <= SNAP_BUF_LEN / 2 && (history & 0x03U) == 0) {
         return SNAP_Y;
     }
-    if (current == SNAP_Y && x_cnt > SNAP_BUF_LEN / 2 && (history & 0x03) == 3) {
+    if (current == SNAP_Y && x_cnt > SNAP_BUF_LEN / 2 && (history & 0x03U) == 0x03U) {
         return SNAP_X;
     }
     if (current == SNAP_NONE) {
@@ -105,7 +112,7 @@ static int scroll_mode_handle_event(const struct device *dev, struct input_event
     if (event->code == INPUT_REL_Y) {
         /* Close out this poll: update snap based on which axis dominated. */
         int32_t abs_y = iabs(event->value);
-        snap_history = (snap_history << 1) & ((1 << SNAP_BUF_LEN) - 1);
+        snap_history = (snap_history << 1) & SNAP_MASK;
         if (last_abs_x_in_poll > abs_y) {
             snap_history |= 1;
         }
@@ -125,7 +132,7 @@ static int scroll_mode_handle_event(const struct device *dev, struct input_event
             y_accum -= ticks * SCROLL_DIVISOR_Y;
             event->code = INPUT_REL_WHEEL;
             /* Natural scroll: trackball down -> scroll content down = wheel up. */
-            event->value = -ticks;
+            event->value = IS_ENABLED(CONFIG_ZMK_SCROLL_MODE_NATURAL_SCROLL) ? -ticks : ticks;
         } else {
             event->value = 0;
         }
