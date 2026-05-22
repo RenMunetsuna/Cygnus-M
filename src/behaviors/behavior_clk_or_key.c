@@ -46,11 +46,9 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
 
 #define COK_SCROLL_TRIGGER 0xFF
-#define COK_MOUSE_BUTTON_COUNT 3
 
 #if IS_CENTRAL
 static bool cmd_modifier_pressed;
-static bool mouse_button_pressed[COK_MOUSE_BUTTON_COUNT];
 
 static void press_cmd_modifier(void) {
     if (cmd_modifier_pressed) {
@@ -69,35 +67,6 @@ static void release_cmd_modifier(void) {
     zmk_endpoints_send_report(HID_USAGE_KEY);
     cmd_modifier_pressed = false;
 }
-
-static void press_mouse_button(uint32_t button) {
-    if (button < COK_MOUSE_BUTTON_COUNT) {
-        if (mouse_button_pressed[button]) {
-            return;
-        }
-        mouse_button_pressed[button] = true;
-    }
-    zmk_hid_mouse_button_press(button);
-    zmk_endpoints_send_mouse_report();
-}
-
-static void release_mouse_button(uint32_t button) {
-    if (button < COK_MOUSE_BUTTON_COUNT) {
-        if (!mouse_button_pressed[button]) {
-            return;
-        }
-        mouse_button_pressed[button] = false;
-    }
-    zmk_hid_mouse_button_release(button);
-    zmk_endpoints_send_mouse_report();
-}
-
-static void convert_lclk_to_cmd(void) {
-    if (mouse_button_pressed[0]) {
-        release_mouse_button(0);
-    }
-    press_cmd_modifier();
-}
 #endif
 
 static int on_press(struct zmk_behavior_binding *binding,
@@ -107,7 +76,7 @@ static int on_press(struct zmk_behavior_binding *binding,
     uint32_t button = binding->param2;
 
     if (button == 0 /* LCLK */ && g_is_scrolling) {
-        convert_lclk_to_cmd();
+        press_cmd_modifier();
         return 0;
     }
 
@@ -126,15 +95,6 @@ static int on_press(struct zmk_behavior_binding *binding,
 
     if (button == COK_SCROLL_TRIGGER) {
         scroll_mode_set(true);
-        /* Make scroll+click order-independent for pinch zoom:
-         * K->J and J->K both become Cmd+wheel, not click-drag+wheel. */
-        if (mouse_button_pressed[0]) {
-            convert_lclk_to_cmd();
-        }
-        if (mouse_button_pressed[1]) {
-            release_mouse_button(1);
-            scroll_mode_set_fixed(true);
-        }
         return 0;
     }
 
@@ -143,7 +103,8 @@ static int on_press(struct zmk_behavior_binding *binding,
         return 0;
     }
 
-    press_mouse_button(button);
+    zmk_hid_mouse_button_press(button);
+    zmk_endpoints_send_mouse_report();
 #endif
     return 0;
 }
@@ -178,7 +139,8 @@ static int on_release(struct zmk_behavior_binding *binding,
         return 0;
     }
 
-    release_mouse_button(button);
+    zmk_hid_mouse_button_release(button);
+    zmk_endpoints_send_mouse_report();
 #endif
     return 0;
 }

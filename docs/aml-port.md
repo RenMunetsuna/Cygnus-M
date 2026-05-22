@@ -16,10 +16,11 @@ onto Cygnus-M.
 - `os_aware`: picks a Mac or non-Mac shortcut based on the active
   Bluetooth profile.
 
-`clk_or_key` keeps scroll+click gestures order-independent: K then J and
-J then K both become Cmd+wheel pinch zoom. If J was already held as a
-normal left click when K is pressed, the click is released and converted
-to a held Cmd modifier.
+`clk_or_key` keeps gesture order meaningful:
+
+- K then J: hold Cmd while wheel events are emitted, for pinch zoom.
+- J then K: keep left click held while wheel events are emitted, for
+  click-and-scroll gestures.
 
 ## Cygnus key position mapping
 
