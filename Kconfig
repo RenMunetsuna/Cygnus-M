@@ -20,6 +20,20 @@ menuconfig ZMK_BEHAVIOR_VOWEL_AUTO
       Custom &kp wrapper for A/I/U/E/O that taps a recent J/K/L
       click-consonant via direct HID before raising the vowel event.
 
+menuconfig ZMK_BEHAVIOR_BT_TOGGLE_01
+    bool "BT profile toggle (0 <-> 1)"
+    default y
+    help
+      Flip between BT profiles 0 and 1 on each activation. Handy for
+      users who only rotate between two Bluetooth hosts.
+
+menuconfig ZMK_BEHAVIOR_OS_AWARE
+    bool "OS-aware key press behavior"
+    default y
+    help
+      Picks one of two encoded keycodes to send based on the active BT
+      profile (0 = Mac, others = Win/etc).
+
 menuconfig ZMK_INPUT_PROCESSOR_TYPING_MODE_EXIT
     bool "Trackball motion typing-mode exit input processor"
     default y
