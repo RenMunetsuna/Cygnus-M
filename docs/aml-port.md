@@ -16,6 +16,11 @@ onto Cygnus-M.
 - `os_aware`: picks a Mac or non-Mac shortcut based on the active
   Bluetooth profile.
 
+`clk_or_key` keeps scroll+click gestures order-independent: K then J and
+J then K both become Cmd+wheel pinch zoom. If J was already held as a
+normal left click when K is pressed, the click is released and converted
+to a held Cmd modifier.
+
 ## Cygnus key position mapping
 
 torabo-tsuki M has 50 positions per layer:
