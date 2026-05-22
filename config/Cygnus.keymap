@@ -78,7 +78,7 @@
 
         default_layer {
             bindings = <
-&lt 6 ESC  &kp Q     &kp W     &vowel_auto E  &kp R           &kp T                                           &kp Y        &vowel_auto U  &vowel_auto I      &vowel_auto O    &vowel_auto A        &kp BSPC
+&lt 6 ESC  &kp Q     &kp W     &vowel_auto E  &kp R           &kp T                                           &kp Y        &vowel_auto U  &vowel_auto I      &vowel_auto O    &kp P                  &kp BSPC
 &kp TAB    &vowel_auto A     &kp S     &kp D          &kp F           &kp G        &mkp MCLK          &kp UP_ARROW    &kp H        &clk_or_key J 0  &clk_or_key K 255      &clk_or_key L 1  &lt 5 MINUS  &kp ENTER
 &kp LSHFT  &kp Z     &kp X     &kp C          &kp V           &kp B        &kp DELETE         &kp DOWN_ARROW  &kp N        &kp M  &kp COMMA  &kp DOT  &kp FSLH     &kp RSHFT
 &kp LCTRL  &kp LGUI  &kp LALT  &kp LC(SPACE)  &kp LEFT_ARROW  &lt 2 SPACE  &kp RIGHT_ARROW    &kp BACKSPACE   &lt 1 ENTER                             &kp DEL      &kp RCTRL
