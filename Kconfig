@@ -59,6 +59,13 @@ menuconfig ZMK_BEHAVIOR_OS_AWARE
       Picks one of two encoded keycodes to send based on the active BT
       profile (0 = Mac, others = Win/etc).
 
+menuconfig ZMK_BEHAVIOR_OS_AWARE_MCLK_OR_TOG
+    bool "OS-aware middle-click or layer toggle behavior"
+    default y
+    help
+      Acts as middle click on BT profile 0 (Mac), and toggles a target
+      layer on any other BT profile (Windows/game profile).
+
 menuconfig ZMK_INPUT_PROCESSOR_TYPING_MODE_EXIT
     bool "Trackball motion typing-mode exit input processor"
     default y

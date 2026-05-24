@@ -1,0 +1,7 @@
+description: |
+  OS-aware middle-click or layer toggle. Profile 0 acts as middle click;
+  other profiles toggle the layer passed as param1.
+
+compatible: "zmk,behavior-os-aware-mclk-or-tog"
+
+include: one_param.yaml

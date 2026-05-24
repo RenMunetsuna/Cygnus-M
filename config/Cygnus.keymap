@@ -50,6 +50,11 @@
             #binding-cells = <2>;
         };
 
+        os_mclk_or_tog: os_mclk_or_tog {
+            compatible = "zmk,behavior-os-aware-mclk-or-tog";
+            #binding-cells = <1>;
+        };
+
         lt_to_layer_0: lt_to_layer_0 {
             compatible = "zmk,behavior-hold-tap";
             label = "LAYER_TAP_TO_0";
@@ -87,7 +92,7 @@
 &kp TAB    &kp Q      &kp W      &vowel_auto E &kp R      &kp T                                                &kp Y      &vowel_auto U      &vowel_auto I      &vowel_auto O      &kp P              &kp BSPC
 &kp LGUI   &vowel_auto A &kp S   &kp D      &kp F      &kp G      &mkp MCLK        &kp UP_ARROW               &kp H      &clk_or_key J 0    &clk_or_key K 255  &clk_or_key L 1    &lt 6 SEMI         &lt 5 MINUS
 &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp DELETE       &kp DOWN_ARROW             &kp N      &kp M              &kp COMMA          &kp DOT            &lt 7 FSLH         &kp RSHFT
-&none      &none      &kp LALT   &kp RCTRL  &mt LCTRL LANG2  &lt 2 SPACE  &lt 4 LANG1     &lt 3 ESC  &lt 1 RET                        &kp RGUI           &mkp MCLK
+&none      &none      &kp LALT   &kp RCTRL  &mt LCTRL LANG2  &lt 2 SPACE  &lt 4 LANG1     &lt 3 ESC  &lt 1 RET                        &kp RGUI           &os_mclk_or_tog 6
             >;
 
             sensor-bindings = <&ROTATE SCRL_DOWN SCRL_UP>;
@@ -143,9 +148,9 @@
         layer_6 {
             bindings = <
 &kp ESC    &kp TAB    &kp Q      &kp W      &kp E      &kp R                                                   &kp Y      &kp U              &kp I              &kp O              &tog 6             &kp DEL
-&kp N1     &kp RCTRL  &kp A      &kp S      &kp D      &kp F      &trans    &trans                            &kp LEFT   &kp DOWN           &kp UP             &kp RIGHT          &kp F12            &kp HOME
+&kp N1     &kp RCTRL  &kp A      &kp S      &kp D      &kp F      &trans    &trans                            &kp LEFT   &kp DOWN           &kp UP             &kp RIGHT          &kp F12            &bt_toggle_01
 &kp N2     &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &trans    &trans                            &kp N      &kp M              &kp GRAVE          &kp LBKT           &kp RBKT           &tog 6
-&none      &none      &kp LGUI   &kp LALT   &kp N3     &kp SPACE  &kp N4         &kp SPACE  &lt 1 RET                         &kp ESC            &none
+&none      &none      &kp LCTRL  &kp LALT   &kp N      &kp SPACE  &kp M          &kp SPACE  &kp RET                          &kp ESC            &tog 6
             >;
         };
 

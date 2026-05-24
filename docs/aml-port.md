@@ -51,7 +51,18 @@ Base-layer Cygnus extra keys keep their local defaults:
 - Row 1 extras: middle click, up arrow.
 - Row 2 extras: delete, down arrow.
 
+The far-right bottom key is OS-aware:
+
+- BT profile 0 (Mac): middle click, useful for Fusion orbit with Shift.
+- Other profiles (Windows/game): toggle layer 6.
+
 On higher layers, those extra positions are transparent.
+
+Layer 6 is the Windows gaming layer. It keeps the left half close to a
+standard keyboard cluster, removes the left Windows key to avoid accidental
+OS shortcuts, and mirrors the far-right bottom key as `&tog 6` so the same
+physical key exits the layer. The right half still keeps `bt_toggle_01`
+available for host switching.
 
 ## Trackball layers
 
