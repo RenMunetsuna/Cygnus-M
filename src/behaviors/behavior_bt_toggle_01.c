@@ -15,6 +15,7 @@
 
 #if IS_CENTRAL && IS_ENABLED(CONFIG_ZMK_BLE)
 #include <zmk/ble.h>
+#include <zmk/keymap.h>
 #endif
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
@@ -30,6 +31,9 @@ static int on_press(struct zmk_behavior_binding *binding,
     int current = zmk_ble_active_profile_index();
     uint8_t target = (current == 0) ? 1 : 0;
     zmk_ble_prof_select(target);
+    if (target == 0) {
+        zmk_keymap_layer_deactivate(6);
+    }
 #endif
     return 0;
 }
