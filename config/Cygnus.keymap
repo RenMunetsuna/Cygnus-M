@@ -149,7 +149,7 @@
             bindings = <
 &kp ESC    &kp Q      &kp W      &kp E      &kp R      &kp T                                                   &kp Y      &kp U              &kp I              &kp O              &tog 6             &kp DEL
 &kp LCTRL  &kp A      &kp S      &kp D      &kp F      &kp G      &trans    &trans                            &kp LEFT   &kp DOWN           &kp UP             &kp RIGHT          &kp F12            &bt_toggle_01
-&kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &trans    &trans                            &kp N      &kp M              &kp GRAVE          &kp LBKT           &kp RBKT           &tog 6
+&kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp SPACE &trans                            &kp N      &kp M              &kp GRAVE          &kp LBKT           &kp RBKT           &tog 6
 &none      &none      &kp N1     &kp N2     &kp N3     &kp SPACE  &kp M          &kp SPACE  &kp RET                          &kp ESC            &tog 6
             >;
         };
