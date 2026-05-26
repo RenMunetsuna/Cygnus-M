@@ -90,7 +90,7 @@
         layer_0 {
             bindings = <
 &kp TAB    &kp Q      &kp W      &vowel_auto E &kp R      &kp T                                                &kp Y      &vowel_auto U      &vowel_auto I      &vowel_auto O      &kp P              &kp BSPC
-&kp LGUI   &vowel_auto A &kp S   &kp D      &kp F      &kp G      &mkp MCLK        &kp UP_ARROW               &kp H      &clk_or_key J 0    &clk_or_key K 255  &clk_or_key L 1    &lt 6 SEMI         &lt 5 MINUS
+&kp LGUI   &vowel_auto A &kp S   &kp D      &kp F      &kp G      &mkp MCLK        &os_aware LG(RET) LC(RET) &kp H      &clk_or_key J 0    &clk_or_key K 255  &clk_or_key L 1    &lt 6 SEMI         &lt 5 MINUS
 &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp DELETE       &kp DOWN_ARROW             &kp N      &kp M              &kp COMMA          &kp DOT            &lt 7 FSLH         &kp RSHFT
 &none      &none      &kp LALT   &kp RCTRL  &mt LCTRL LANG2  &lt 2 SPACE  &lt 4 LANG1     &lt 3 ESC  &lt 1 RET                        &kp RGUI           &os_mclk_or_tog 6
             >;
@@ -147,7 +147,7 @@
 
         layer_6 {
             bindings = <
-&kp TAB    &kp Q      &kp W      &kp E      &kp R      &kp T                                                   &kp Y      &kp U              &kp I              &kp O              &tog 6             &kp DEL
+&kp ESC    &kp Q      &kp W      &kp E      &kp R      &kp T                                                   &kp Y      &kp U              &kp I              &kp O              &tog 6             &kp DEL
 &kp LCTRL  &kp A      &kp S      &kp D      &kp F      &kp G      &trans    &trans                            &kp LEFT   &kp DOWN           &kp UP             &kp RIGHT          &kp F12            &bt_toggle_01
 &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp SPACE &trans                            &kp N      &kp M              &kp GRAVE          &kp LBKT           &kp RBKT           &tog 6
 &kp N      &kp M      &kp K      &kp L      &kp N1     &kp N2     &kp N3         &kp ESC    &kp RET                          &kp SPACE          &tog 6
