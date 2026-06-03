@@ -1,0 +1,7 @@
+description: |
+  OS-aware browser new-tab click. Profile 0 sends Command+left-click;
+  other profiles send Control+left-click.
+
+compatible: "zmk,behavior-os-new-tab-click"
+
+include: zero_param.yaml

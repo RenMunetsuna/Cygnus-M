@@ -59,6 +59,13 @@ menuconfig ZMK_BEHAVIOR_OS_AWARE
       Picks one of two encoded keycodes to send based on the active BT
       profile (0 = Mac, others = Win/etc).
 
+menuconfig ZMK_BEHAVIOR_OS_NEW_TAB_CLICK
+    bool "OS-aware browser new-tab click behavior"
+    default y
+    help
+      Sends Command+left-click on BT profile 0 (Mac), and Control+left-click
+      on any other BT profile (Windows/browser profile).
+
 menuconfig ZMK_BEHAVIOR_OS_AWARE_MCLK_OR_TOG
     bool "OS-aware middle-click or layer toggle behavior"
     default y

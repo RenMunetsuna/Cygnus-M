@@ -2,6 +2,7 @@ if(CONFIG_ZMK_BEHAVIOR_CLK_OR_KEY
    OR CONFIG_ZMK_BEHAVIOR_BT_TOGGLE_01
    OR CONFIG_ZMK_BEHAVIOR_VOWEL_AUTO
    OR CONFIG_ZMK_BEHAVIOR_OS_AWARE
+   OR CONFIG_ZMK_BEHAVIOR_OS_NEW_TAB_CLICK
    OR CONFIG_ZMK_BEHAVIOR_OS_AWARE_MCLK_OR_TOG
    OR CONFIG_ZMK_INPUT_PROCESSOR_TYPING_MODE_EXIT
    OR CONFIG_ZMK_INPUT_PROCESSOR_SCROLL_MODE)
@@ -26,6 +27,9 @@ if(CONFIG_ZMK_BEHAVIOR_CLK_OR_KEY
 
   zephyr_library_sources_ifdef(CONFIG_ZMK_BEHAVIOR_OS_AWARE
     src/behaviors/behavior_os_aware.c)
+
+  zephyr_library_sources_ifdef(CONFIG_ZMK_BEHAVIOR_OS_NEW_TAB_CLICK
+    src/behaviors/behavior_os_new_tab_click.c)
 
   zephyr_library_sources_ifdef(CONFIG_ZMK_BEHAVIOR_OS_AWARE_MCLK_OR_TOG
     src/behaviors/behavior_os_aware_mclk_or_tog.c)
