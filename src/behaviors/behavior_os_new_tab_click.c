@@ -13,6 +13,7 @@
 #include <stdbool.h>
 
 #include <zephyr/device.h>
+#include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include <drivers/behavior.h>
 
@@ -52,10 +53,23 @@ static void tap_modified_left_click(zmk_mod_flags_t modifier) {
         zmk_endpoints_send_report(HID_USAGE_KEY);
     }
 
+    if (CONFIG_ZMK_OS_NEW_TAB_CLICK_MOD_SETTLE_MS > 0) {
+        k_sleep(K_MSEC(CONFIG_ZMK_OS_NEW_TAB_CLICK_MOD_SETTLE_MS));
+    }
+
     zmk_hid_mouse_button_press(OS_NTC_LEFT_BUTTON);
     zmk_endpoints_send_mouse_report();
+
+    if (CONFIG_ZMK_OS_NEW_TAB_CLICK_HOLD_MS > 0) {
+        k_sleep(K_MSEC(CONFIG_ZMK_OS_NEW_TAB_CLICK_HOLD_MS));
+    }
+
     zmk_hid_mouse_button_release(OS_NTC_LEFT_BUTTON);
     zmk_endpoints_send_mouse_report();
+
+    if (CONFIG_ZMK_OS_NEW_TAB_CLICK_MOD_SETTLE_MS > 0) {
+        k_sleep(K_MSEC(CONFIG_ZMK_OS_NEW_TAB_CLICK_MOD_SETTLE_MS));
+    }
 
     if (!already_pressed) {
         zmk_hid_unregister_mods(modifier);

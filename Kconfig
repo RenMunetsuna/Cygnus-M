@@ -66,6 +66,25 @@ menuconfig ZMK_BEHAVIOR_OS_NEW_TAB_CLICK
       Sends Command+left-click on BT profile 0 (Mac), and Control+left-click
       on any other BT profile (Windows/browser profile).
 
+if ZMK_BEHAVIOR_OS_NEW_TAB_CLICK
+
+config ZMK_OS_NEW_TAB_CLICK_MOD_SETTLE_MS
+    int "Delay after pressing the browser new-tab click modifier"
+    default 30
+    range 0 200
+    help
+      Delay in milliseconds between sending Command/Control and sending the
+      left click. Windows over BLE can otherwise treat the click as unmodified.
+
+config ZMK_OS_NEW_TAB_CLICK_HOLD_MS
+    int "Browser new-tab click button hold time"
+    default 20
+    range 0 200
+    help
+      Delay in milliseconds between mouse button press and release.
+
+endif # ZMK_BEHAVIOR_OS_NEW_TAB_CLICK
+
 menuconfig ZMK_BEHAVIOR_OS_AWARE_MCLK_OR_TOG
     bool "OS-aware middle-click or layer toggle behavior"
     default y
