@@ -96,9 +96,9 @@
         layer_0 {
             bindings = <
 &kp TAB    &kp Q      &kp W      &vowel_auto E &kp R      &kp T                                                &kp Y      &vowel_auto U      &vowel_auto I      &vowel_auto O      &kp P              &kp BSPC
-&kp LGUI   &vowel_auto A &kp S   &kp D      &kp F      &kp G      &mkp MCLK        &os_new_tab_click          &kp H      &clk_or_key J 0    &clk_or_key K 255  &clk_or_key L 1    &lt 6 SEMI         &lt 5 MINUS
+&os_aware LGUI LCTRL &vowel_auto A &kp S &kp D    &kp F      &kp G      &mkp MCLK        &os_new_tab_click          &kp H      &clk_or_key J 0    &clk_or_key K 255  &clk_or_key L 1    &lt 6 SEMI         &lt 5 MINUS
 &kp LSHFT  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp DELETE       &kp DOWN_ARROW             &kp N      &kp M              &kp COMMA          &kp DOT            &lt 7 FSLH         &kp RSHFT
-&none      &none      &kp LALT   &kp RCTRL  &mt LCTRL LANG2  &lt 2 SPACE  &lt 4 LANG1     &lt 3 ESC  &lt 1 RET                        &kp RGUI           &os_mclk_or_tog 6
+&none      &none      &kp LALT   &kp RCTRL  &mt LCTRL LANG2  &lt 2 SPACE  &lt 4 LANG1     &lt 3 ESC  &lt 1 RET                        &os_aware RGUI RCTRL &os_mclk_or_tog 6
             >;
 
             sensor-bindings = <&ROTATE SCRL_DOWN SCRL_UP>;
@@ -106,19 +106,19 @@
 
         layer_1 {
             bindings = <
-&tog 6     &none      &none      &none      &none      &none                                                   &kp LG(R)  &none              &os_aware LC(PG_UP) LC(LS(TAB))  &os_aware LC(PG_DN) LC(TAB)  &kp LG(F)          &kp LS(LG(F))
-&kp LGUI   &kp LA(A)  &kp LA(S)  &kp LA(D)  &kp LA(F)  &none    &trans    &trans                            &mkp MB4   &kp LG(C)          &kp LG(V)          &kp LS(LG(C))      &kp LC(GRAVE)      &kp LG(W)
-&kp LSHFT  &none      &none      &none      &none      &none    &trans    &trans                            &kp LS(N8) &kp LG(X)          &kp LS(LG(V))      &kp LS(LG(Y))      &kp LC(LS(LA(R)))  &kp LC(LA(T))
+&tog 6     &none      &none      &none      &none      &none                                                   &os_aware LG(R) LC(R)  &none      &os_aware LC(PG_UP) LC(LS(TAB))  &os_aware LC(PG_DN) LC(TAB)  &os_aware LG(F) LC(F)  &os_aware LS(LG(F)) LC(LS(F))
+&os_aware LGUI LCTRL &kp LA(A) &kp LA(S) &kp LA(D) &kp LA(F) &none &trans  &trans                            &mkp MB4   &os_aware LG(C) LC(C)  &os_aware LG(V) LC(V)  &os_aware LS(LG(C)) LC(LS(C))  &kp LC(GRAVE)  &os_aware LG(W) LC(W)
+&kp LSHFT  &none      &none      &none      &none      &none    &trans    &trans                            &kp LS(N8) &os_aware LG(X) LC(X)  &os_aware LS(LG(V)) LC(LS(V))  &os_aware LS(LG(Y)) LC(LS(Y))  &kp LC(LS(LA(R)))  &kp LC(LA(T))
 &none      &none      &kp LALT   &kp LCTRL  &none      &kp SPACE  &none          &none      &none                              &kp ESC            &none
             >;
         };
 
         layer_2 {
             bindings = <
-&none      &none      &none      &kp LC(LS(E)) &kp LC(LS(R)) &kp LS(LG(T))                                      &kp GRAVE  &kp LS(N4)         &kp LS(N9)         &kp LS(N0)         &kp LS(N7)         &kp BSPC
-&kp LGUI   &none      &none      &none      &kp LG(P)  &kp LC(LS(LG(E)))  &trans    &trans                    &kp LS(N2) &kp LS(N1)         &kp LBKT           &kp RBKT           &kp LS(BSLH)       &kp BSLH
+&none      &none      &none      &kp LC(LS(E)) &kp LC(LS(R)) &os_aware LS(LG(T)) LC(LS(T))                      &kp GRAVE  &kp LS(N4)         &kp LS(N9)         &kp LS(N0)         &kp LS(N7)         &kp BSPC
+&os_aware LGUI LCTRL &none &none &none      &os_aware LG(P) LC(P) &kp LC(LS(LG(E)))  &trans    &trans         &kp LS(N2) &kp LS(N1)         &kp LBKT           &kp RBKT           &kp LS(BSLH)       &kp BSLH
 &kp LSHFT  &none      &none      &none      &none      &none              &trans    &trans                    &kp LS(N3) &kp SQT            &kp COMMA          &kp DOT            &kp FSLH           &none
-&none      &none      &none      &none      &none      &none      &kp LGUI       &kp RGUI   &kp LG(RET)                       &none              &none
+&none      &none      &none      &none      &none      &none      &os_aware LGUI LCTRL &os_aware RGUI RCTRL &os_aware LG(RET) LC(RET)        &none              &none
             >;
         };
 
@@ -136,7 +136,7 @@
         layer_4 {
             bindings = <
 &none      &none      &none      &none      &none      &none                                                   &kp LS(COMMA) &kp LS(N5)      &kp EQUAL          &kp LS(EQUAL)      &kp LS(N8)         &kp BSPC
-&kp LGUI   &none      &none      &none      &none      &none      &trans    &trans                            &kp N1     &kp N2             &kp N3             &kp N4             &kp N5             &kp MINUS
+&os_aware LGUI LCTRL &none &none &none      &none      &none      &trans    &trans                            &kp N1     &kp N2             &kp N3             &kp N4             &kp N5             &kp MINUS
 &kp LSHFT  &none      &none      &none      &none      &none      &trans    &trans                            &kp N6     &kp N7             &kp N8             &kp N9             &kp N0             &kp LS(SEMI)
 &none      &none      &none      &kp LCTRL  &none      &kp SPACE  &none          &none      &none                              &none              &none
             >;
@@ -144,7 +144,7 @@
 
         layer_5 {
             bindings = <
-&bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_NXT &bt BT_PRV &bt BT_CLR                                          &kp LS(LG(N4))     &kp LC(LS(LG(N4))) &kp LC(LS(S))   &none             &kp LC(LS(LA(P)))  &none
+&bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_NXT &bt BT_PRV &bt BT_CLR                                          &os_aware LS(LG(N4)) LG(LS(S)) &os_aware LC(LS(LG(N4))) LG(LS(S)) &kp LC(LS(S))   &none             &kp LC(LS(LA(P)))  &none
 &none      &none      &none      &none      &none      &none      &trans    &trans                            &kp LC(LS(LA(H)))  &kp LC(LS(LA(J)))  &kp LC(LS(LA(K))) &kp LC(LS(LA(L))) &kp LC(LS(LA(SEMI))) &none
 &none      &none      &none      &none      &none      &none      &trans    &trans                            &kp LC(LS(LA(N)))  &kp LC(TAB)        &kp LA(TAB)    &none             &none              &none
 &none      &none      &none      &none      &none      &none      &none          &none      &bt_toggle_01                     &none              &none
