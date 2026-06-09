@@ -124,7 +124,7 @@
 
         layer_3 {
             bindings = <
-&none      &none      &none      &none      &none      &none                                                   &none      &none              &mkp MB4           &mkp MB5           &none              &kp BSPC
+&none      &none      &none      &none      &none      &none                                                   &none      &none              &os_aware LG(LBKT) LA(LEFT) &os_aware LG(RBKT) LA(RIGHT) &none           &kp BSPC
 &none      &none      &none      &none      &none      &none      &trans    &trans                            &kp LC(LS(E)) &kp LC(Q)       &kp LC(G)          &kp LC(GRAVE)      &kp LC(LS(GRAVE))  &none
 &none      &none      &none      &none      &none      &none      &trans    &trans                            &kp LC(H)  &kp LC(J)          &kp LC(K)          &kp LC(L)          &none              &none
 &none      &none      &none      &none      &none      &none      &kp LALT       &none      &none                              &none              &none
