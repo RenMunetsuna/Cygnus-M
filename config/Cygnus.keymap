@@ -106,7 +106,7 @@
 
         layer_1 {
             bindings = <
-&tog 6     &none      &none      &none      &none      &none                                                   &os_aware LG(R) LC(R)  &none      &os_aware LC(PG_UP) LC(LS(TAB))  &os_aware LC(PG_DN) LC(TAB)  &os_aware LG(F) LC(F)  &os_aware LS(LG(F)) LC(LS(F))
+&tog 6     &none      &none      &none      &none      &none                                                   &os_aware LG(R) LC(R)  &none      &kp LC(LS(TAB))  &kp LC(TAB)  &os_aware LG(F) LC(F)  &os_aware LS(LG(F)) LC(LS(F))
 &os_aware LGUI LCTRL &kp LA(A) &kp LA(S) &kp LA(D) &kp LA(F) &none &trans  &trans                            &mkp MB4   &os_aware LG(C) LC(C)  &os_aware LG(V) LC(V)  &os_aware LS(LG(C)) LC(LS(C))  &kp LC(GRAVE)  &os_aware LG(W) LC(W)
 &kp LSHFT  &none      &none      &none      &none      &none    &trans    &trans                            &kp LS(N8) &os_aware LG(X) LC(X)  &os_aware LS(LG(V)) LC(LS(V))  &os_aware LS(LG(Y)) LC(LS(Y))  &kp LC(LS(LA(R)))  &kp LC(LA(T))
 &none      &none      &kp LALT   &kp LCTRL  &none      &kp SPACE  &none          &none      &none                              &kp ESC            &none
